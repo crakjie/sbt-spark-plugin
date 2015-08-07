@@ -23,7 +23,7 @@ sbt clean package submit
 #Why it's good
 This plugin use the command spark-submit without making an über jar, witch is relatively fastest.
 
-#Why it's cool be better
+#Why it's could be better
 Because the plugin push all your classpath . But however it's still faster than create an assambly.
 
 
