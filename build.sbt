@@ -8,4 +8,18 @@ version := "1.0.0"
 
 organization := "com.github.crakjie"
 
-description := "A Sbt plugin used to compile fill spark-submit jar list"
+description := "A simple Sbt plugin used to fill spark-submit jar list"
+
+licenses += ("Apache-2.0", url("https://www.apache.org/licenses/LICENSE-2.0.html"))
+
+import bintray.Keys._
+
+publishMavenStyle := false
+
+repository in bintray := "sbt-plugins"
+
+bintrayOrganization in bintray := None
+ 
+resolvers += "Typesafe Releases" at "http://repo.typesafe.com/typesafe/releases"
+ 
+seq(bintrayPublishSettings:_*)
