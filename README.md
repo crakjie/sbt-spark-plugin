@@ -3,13 +3,14 @@ This is a simple sbt plugin, which will simplify your life to submit your spark 
 By filling the --jar option of the spark-submit command.
 
 #Usage
-In your build.sbt specifty your sparkHome director
+In your build.sbt specifty your sparkHome directory
 ```
 sparkHome := "/toto/titi"
 ```
-war : This spark home will not set your other 'sparkHome' env ( maybe in a next version )
+warn : This spark home will not set your other 'sparkHome' env ( maybe in a next version )
 
-In your plugin.sbt add the plugin ```
+In your plugin.sbt add the plugin
+```
 addSbtPlugin("com.github.crakjie" % "sbt-spark-plugin" % "1.0.0")
 ```
 
