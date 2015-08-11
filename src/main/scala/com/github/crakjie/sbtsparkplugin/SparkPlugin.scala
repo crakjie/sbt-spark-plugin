@@ -21,7 +21,12 @@ object SparkPlugin extends sbt.AutoPlugin {
 		  val jars =  (dependencyClasspath in Runtime).value.files.map(_.getAbsolutePath)
 		  val strJars = jars.mkString(",")
 		  val (art, file) = packagedArtifact.in(Compile, packageBin).value
-		  val cmd =  sparkHome.value+"/bin/spark-submit   --class StreamingApp --jars " + strJars +" " + file.getAbsolutePath
+		  //Calculate the main class parameter
+		  val mainOp = (mainClass in Runtime).value match {
+		    case None => ""
+		    case Some(clazz) => "--class " + clazz 
+		  }
+		  val cmd =  sparkHome.value+"/bin/spark-submit "+mainOp+"  --jars " + strJars +" " + file.getAbsolutePath
 		  cmd !
 		}
 	)

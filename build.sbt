@@ -4,7 +4,9 @@ name := "sbt-spark-plugin"
 
 scalaVersion := "2.10.4"
 
-version := "1.0.0"
+version := "1.0.1"
+
+crossScalaVersions := Seq("2.10.4")
 
 organization := "com.github.crakjie"
 
