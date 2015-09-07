@@ -20,6 +20,19 @@ Execute the submit command.
 sbt clean package submit
 ```
 
+## Params
+You can add others submit params by setting directly
+```
+submitOptions := "--master local[8]  --executor-memory 20G"
+```
+
+#See your submit cmd
+If you ever want to see your command submit
+```
+logLevel := Level.Debug
+```
+
+
 #Why it's good
 This plugin use the command spark-submit without making an über jar, witch is relatively fastest.
 
