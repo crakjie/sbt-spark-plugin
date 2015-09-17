@@ -28,7 +28,7 @@ object SparkPlugin extends sbt.AutoPlugin {
 		    case None => ""
 		    case Some(clazz) => "--class " + clazz 
 		  }
-		  val cmd =  sparkHome.value+"/bin/spark-submit "+mainOp+"  --jars " + strJars +" " + file.getAbsolutePath + " " + submitOptions
+		  val cmd =  sparkHome.value+"/bin/spark-submit "+mainOp+"  --jars " + strJars +" " + file.getAbsolutePath + " " + submitOptions.value
       if(logLevel.value == Level.Debug) {
         streams.value.log.debug(cmd)
       }
