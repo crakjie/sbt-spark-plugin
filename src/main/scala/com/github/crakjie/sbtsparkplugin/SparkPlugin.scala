@@ -8,6 +8,7 @@ object SparkPlugin extends sbt.AutoPlugin {
   
 	object autoImport {
 	  lazy val sparkHome = settingKey[String]("The directory of your spark containing /bin")
+		lazy val submitLogLevel = settingKey[Level.Value]("the log level of your sbt-spark-plugin")
     lazy val submitOptions = settingKey[String]("Here you can writes every submit params not implemented in this plugin")
 		lazy val submit = taskKey[Unit]("Spark submit")
 	}
@@ -19,6 +20,7 @@ object SparkPlugin extends sbt.AutoPlugin {
 	override lazy val projectSettings = Seq(
       submitOptions := "",
 	    sparkHome := ".",
+			submitLogLevel := Level.Info,
 	    submit := {
 		  val jars =  (dependencyClasspath in Runtime).value.files.map(_.getAbsolutePath).filterNot(_.endsWith("target/scala-2.11/classes"))
 		  val strJars = jars.mkString(",")
@@ -29,7 +31,7 @@ object SparkPlugin extends sbt.AutoPlugin {
 		    case Some(clazz) => "--class " + clazz 
 		  }
 		  val cmd =  sparkHome.value+"/bin/spark-submit "+mainOp+"  --jars " + strJars +" " + file.getAbsolutePath + " " + submitOptions.value
-      if(logLevel.value == Level.Debug) {
+      if(submitLogLevel.value == Level.Debug) {
         streams.value.log.debug(cmd)
       }
 

@@ -29,7 +29,7 @@ submitOptions := "--master local[8]  --executor-memory 20G"
 #See your submit cmd
 If you ever want to see your command submit
 ```
-logLevel := Level.Debug
+submitLogLevel := Level.Debug
 ```
 
 
