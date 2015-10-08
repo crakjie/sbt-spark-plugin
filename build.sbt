@@ -4,7 +4,7 @@ name := "sbt-spark-plugin"
 
 scalaVersion := "2.10.4"
 
-version := "1.0.3"
+version := "1.0.4"
 
 crossScalaVersions := Seq("2.10.4")
 
@@ -23,5 +23,9 @@ repository in bintray := "sbt-plugins"
 bintrayOrganization in bintray := None
  
 resolvers += "Typesafe Releases" at "http://repo.typesafe.com/typesafe/releases"
+
+resolvers += "JCenter" at "http://jcenter.bintray.com/"
+
+libraryDependencies += "org.clapper" %% "grizzled-scala" % "1.3"
  
 seq(bintrayPublishSettings:_*)

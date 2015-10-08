@@ -1,6 +1,9 @@
 package main.scala.com.github.crakjie.sbtsparkplugin
 import sbt._
 import Keys._
+import grizzled.sys._
+import OperatingSystem._
+
 
 object SparkPlugin extends sbt.AutoPlugin {
   
@@ -31,7 +34,10 @@ object SparkPlugin extends sbt.AutoPlugin {
 		    case Some(clazz) => "--class " + clazz 
 		  }
 
-			val sparkSubmitLocation = sbt.Path.apply(sparkHome.value) / "bin" / "spark-submit"
+			//on windows spark-submit is a cmd
+			val execName = if(os == Windows) 	"spark-submit.cmd" else "spark-submit"
+			//use path to have the right sperator depending of the operating system
+			val sparkSubmitLocation = sbt.Path.apply(sparkHome.value) / "bin" / execName
 
 		  val cmd =  sparkSubmitLocation.getAbsolutePath+" "+mainOp+"  --jars " + strJars +" " + file.getAbsolutePath + " " + submitOptions.value
       if(submitLogLevel.value == Level.Debug) {

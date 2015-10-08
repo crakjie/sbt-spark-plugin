@@ -11,7 +11,7 @@ warn : This spark home will not set your other 'sparkHome' env ( maybe in a next
 
 In your plugin.sbt add the plugin
 ```
-addSbtPlugin("com.github.crakjie" % "sbt-spark-plugin" % "1.0.3")
+addSbtPlugin("com.github.crakjie" % "sbt-spark-plugin" % "1.0.4")
 ```
 
 Execute the submit command.
