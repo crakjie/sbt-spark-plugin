@@ -39,7 +39,7 @@ object SparkPlugin extends sbt.AutoPlugin {
 			//use path to have the right sperator depending of the operating system
 			val sparkSubmitLocation = sbt.Path.apply(sparkHome.value) / "bin" / execName
 
-		  val cmd =  sparkSubmitLocation.getAbsolutePath+" "+mainOp+"  --jars " + strJars +" " + file.getAbsolutePath + " " + submitOptions.value
+		  val cmd =  sparkSubmitLocation.getAbsolutePath+" "+mainOp+"  --jars " + strJars +" " + submitOptions.value + " " + file.getAbsolutePath
       if(submitLogLevel.value == Level.Debug) {
         streams.value.log.debug(cmd)
       }
