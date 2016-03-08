@@ -3,6 +3,7 @@ import sbt._
 import Keys._
 import grizzled.sys._
 import OperatingSystem._
+import Def.{ inputKey, spaceDelimited }
 
 
 object SparkPlugin extends sbt.AutoPlugin {
@@ -13,7 +14,7 @@ object SparkPlugin extends sbt.AutoPlugin {
 	  lazy val sparkHome = settingKey[String]("The directory of your spark containing /bin")
 		lazy val submitLogLevel = settingKey[Level.Value]("the log level of your sbt-spark-plugin")
     lazy val submitOptions = settingKey[String]("Here you can writes every submit params not implemented in this plugin")
-		lazy val submit = taskKey[Unit]("Spark submit")
+		lazy val submit = inputKey[Unit]("Spark submit")
 	}
 	
 	import autoImport._
@@ -25,26 +26,29 @@ object SparkPlugin extends sbt.AutoPlugin {
 	    sparkHome := ".",
 			submitLogLevel := Level.Info,
 	    submit := {
-		  val jars =  (dependencyClasspath in Runtime).value.files.map(_.getAbsolutePath).filterNot(_.endsWith("target/scala-2.11/classes"))
-		  val strJars = jars.mkString(",")
-		  val (art, file) = packagedArtifact.in(Compile, packageBin).value
-		  //Calculate the main class parameter
-		  val mainOp = (mainClass in Runtime).value match {
-		    case None => ""
-		    case Some(clazz) => "--class " + clazz 
-		  }
 
-			//on windows spark-submit is a cmd
-			val execName = if(os == Windows) 	"spark-submit.cmd" else "spark-submit"
-			//use path to have the right sperator depending of the operating system
-			val sparkSubmitLocation = sbt.Path.apply(sparkHome.value) / "bin" / execName
+				val args : Seq[String] = spaceDelimited("<arg>").parsed
 
-		  val cmd =  sparkSubmitLocation.getAbsolutePath+" "+mainOp+"  --jars " + strJars +" " + submitOptions.value + " " + file.getAbsolutePath
-      if(submitLogLevel.value == Level.Debug) {
-        streams.value.log.debug(cmd)
-      }
+				val jars =  (dependencyClasspath in Runtime).value.files.map(_.getAbsolutePath).filterNot(_.endsWith("target/scala-2.11/classes"))
+				val strJars = jars.sorted.mkString(",")
+				val (art, file) = packagedArtifact.in(Compile, packageBin).value
+				//Calculate the main class parameter
+				val mainOp = (mainClass in Runtime).value match {
+					case None => ""
+					case Some(clazz) => "--class " + clazz
+				}
 
-		  cmd !
+				//on windows spark-submit is a cmd
+				val execName = if(os == Windows) 	"spark-submit.cmd" else "spark-submit"
+				//use path to have the right sperator depending of the operating system
+				val sparkSubmitLocation = sbt.Path.apply(sparkHome.value) / "bin" / execName
+
+				val cmd =  sparkSubmitLocation.getAbsolutePath+" "+mainOp+"  --jars " + strJars +" " + submitOptions.value + " " + file.getAbsolutePath + " " + args.mkString(" ")
+				if(submitLogLevel.value == Level.Debug) {
+					streams.value.log.debug(cmd)
+				}
+
+				cmd !
 		}
 	)
 
