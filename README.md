@@ -11,7 +11,7 @@ warn : This spark home will not set your other 'sparkHome' env ( maybe in a next
 
 In your plugin.sbt add the plugin
 ```
-addSbtPlugin("com.github.crakjie" % "sbt-spark-plugin" % "1.0.5")
+addSbtPlugin("com.github.crakjie" % "sbt-spark-plugin" % "1.1.0")
 ```
 
 Execute the submit command.
@@ -29,10 +29,15 @@ submitOptions := "--master local[8]  --executor-memory 20G"
 #See your submit cmd
 If you ever want to see your command submit
 ```
+logLevel := Level.Debug
 submitLogLevel := Level.Debug
 ```
 
-
+#Send params to your spark program.
+Give params space separated. And they will be usable from your main args array.
+```
+sbt package "submit <arg1> <arg2>"
+```
 #Why it's good
 This plugin use the command spark-submit without making an über jar, witch is relatively fastest.
 
