@@ -1,4 +1,6 @@
 package main.scala.com.github.crakjie.sbtsparkplugin
+
+import com.github.crakjie.sbtsparkplugin.CommandLineParser
 import sbt._
 import Keys._
 import grizzled.sys._
@@ -7,6 +9,8 @@ import Def.{ inputKey, spaceDelimited }
 
 
 object SparkPlugin extends sbt.AutoPlugin {
+
+	val commandRegex = """(['"])((?:\\\1|.)+?)\1|([^\s"']+)""".r
   
   override def trigger = allRequirements
   
@@ -44,11 +48,12 @@ object SparkPlugin extends sbt.AutoPlugin {
 				val sparkSubmitLocation = sbt.Path.apply(sparkHome.value) / "bin" / execName
 
 				val cmd =  sparkSubmitLocation.getAbsolutePath+" "+mainOp+"  --jars " + strJars +" " + submitOptions.value + " " + file.getAbsolutePath + " " + args.mkString(" ")
+
 				if(submitLogLevel.value == Level.Debug) {
 					streams.value.log.debug(cmd)
 				}
 
-				cmd !
+				CommandLineParser.parse(cmd) !
 		}
 	)
 
