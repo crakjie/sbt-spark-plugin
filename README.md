@@ -23,7 +23,7 @@ sbt clean package submit
 ## Params
 You can add others submit params by setting directly
 ```
-submitOptions := "--master local[8]  --executor-memory 20G"
+submitOptions := "--master local[8]  --executor-memory 20G --verbose --conf 'spark.executor.extraJavaOptions=-XX:+PrintGCDetails -XX:+PrintGCTimeStamps'"
 ```
 
 #See your submit cmd
