@@ -53,3 +53,8 @@ The plugin will fill the --jar option of spark-submit with the class path genera
 ```
 sbt package "submit arg1 arg2"
 ```
+
+#Spark 2
+In spark package jars are not lib but in jars directory.
+Sbt load lib directory by default you can fallow this http://www.scala-sbt.org/1.0/docs/Library-Dependencies.html#Unmanaged+dependencies or copy the content of the jars directory in lib.
+Warning Unmanaged dependencies have precedence over managed dependencies so be carefull if you are using the same lib than spark, for exemple guava.
